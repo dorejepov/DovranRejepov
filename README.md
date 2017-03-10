@@ -1,4 +1,4 @@
 # DovranRejepov
 
 ### hi
-- u --ooo--
+- u __ooo__
