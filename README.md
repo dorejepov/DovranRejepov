@@ -1,14 +1,14 @@
 # Racer
 
-###Group members: 
+### Group members: 
 
 Dovran, Amara, Eric D. 
 
-###Project goal:
+### Project goal:
 
 Write a two-player racing game in Phaser.
 
-###Current tasks:
+### Current tasks:
 
 - switch remaining asteroids code over to racer code.
 
