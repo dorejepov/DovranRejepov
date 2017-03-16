@@ -1,6 +1,7 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 var kbd;
-var spaceship;
+var car1;
+var car2;
 //var asteroids = [];
 //var bullets;
 
@@ -10,7 +11,8 @@ var spaceship;
 //var highScore = 0;
 
 function preload() {
-    game.load.image('spaceship', '../assets/spaceship.gif');
+    game.load.image('car1', '../assets/spaceship.gif');
+    game.load.image('car2','../assets/spaceship.gif');
     //game.load.image('asteroid', 'asteroid.gif');
     //game.load.image('bullet', 'laser3.png');
   
@@ -26,19 +28,27 @@ function create() {
 
 
     //  Our player ship
-    spaceship = game.add.sprite(400, 400, 'spaceship');
-    spaceship.anchor.set(0.5);
+    car1 = game.add.sprite(400, 400, 'car1');
+    car2 = game.add.sprite(400, 390, 'car2');
+    car1.anchor.set(0.5);
+    car2.anchor.set(0.5);
 
     //  and its physics settings
-    game.physics.enable(spaceship, Phaser.Physics.ARCADE);
+    game.physics.enable(car1, Phaser.Physics.ARCADE);
+    game.physics.enable(car2, Phaser.Physics.ARCADE);
  
-    spaceship.body.drag.set(100);
-    spaceship.body.maxVelocity.set(200);
+    car1.body.drag.set(100);
+    car2.body.drag.set(100);
+    car1.body.maxVelocity.set(200);
+    car2.body.maxVelocity.set(200);
     //  This is the collision rule
     game.world.setBounds(0, 0, 800, 600);
-    spaceship.body.collideWorldBounds = false;
-    spaceship.body.setCircle(15);
-    spaceship.scale.setTo(2, 2)
+    car1.body.collideWorldBounds = false;
+    car2.body.collideWorldBounds = false;
+    car1.body.setCircle(15);
+    car2.body.setCircle(15);
+    car1.scale.setTo(2, 2);
+    car2.scale.setTo(2, 2);
     
     //makeAsteroids(25);
     
@@ -94,28 +104,54 @@ function update() {
 function move() {
     if (kbd.up.isDown)  // isDown means key was pressed
     {
-        game.physics.arcade.accelerationFromRotation(spaceship.rotation, 80, spaceship.body.acceleration);
+        game.physics.arcade.accelerationFromRotation(car1.rotation, 80, car1.body.acceleration);
     }
     else if (kbd.down.isDown)
     {   
-        game.physics.arcade.accelerationFromRotation(spaceship.rotation, -80, spaceship.body.acceleration); 
+        game.physics.arcade.accelerationFromRotation(car1.rotation, -80, car1.body.acceleration); 
     }
     else 
     {
-        spaceship.body.acceleration.set(0);
+        car1.body.acceleration.set(0);
     }
     
     if (kbd.left.isDown)
     {
-        spaceship.body.angularVelocity = -300;
+        car1.body.angularVelocity = -300;
     }
     else if (kbd.right.isDown)
     {
-        spaceship.body.angularVelocity = 300;
+        car1.body.angularVelocity = 300;
     }
     else
     {
-        spaceship.body.angularVelocity = 0;
+        car1.body.angularVelocity = 0;
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------------
+     if (kbd.W.isDown)  // isDown means key was pressed
+    {
+        game.physics.arcade.accelerationFromRotation(car2.rotation, 80, car2.body.acceleration);
+    }
+    else if (kbd.s.isDown)
+    {   
+        game.physics.arcade.accelerationFromRotation(car2.rotation, -80, car2.body.acceleration); 
+    }
+    else 
+    {
+        car2.body.acceleration.set(0);
+    }
+    
+    if (kbd.left.isDown)
+    {
+        car2.body.angularVelocity = -300;
+    }
+    else if (kbd.right.isDown)
+    {
+        car2.body.angularVelocity = 300;
+    }
+    else
+    {
+        car2.body.angularVelocity = 0;
     }
 }
 
