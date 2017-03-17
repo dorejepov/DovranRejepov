@@ -1,24 +1,31 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-var kbd;
+var cursors;
 var car1;
 var car2;
-//var asteroids = [];
-//var bullets;
+var barriers = [];
 
-//var fireRate = 270;
-//var nextFire = 0;
-//var score = 0;
-//var highScore = 0;
+//class to represent bariers
+var Barrier = function (x,y, size) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+};
+
 
 function preload() {
     game.load.image('car1', '../assets/spaceship.gif');
     game.load.image('car2','../assets/spaceship.gif');
-    //game.load.image('asteroid', 'asteroid.gif');
-    //game.load.image('bullet', 'laser3.png');
-  
+    game.load.image('barrier', '../assets/spaceship.gif');
     
-    kbd = game.input.keyboard.createCursorKeys();
-    //spaceKey = game.input.keyboard.spaceKey;
+    cursors = game.input.keyboard.createCursorKeys();
+    game.input.keyboard.addKey(Phaser.Keyboard.A);
+
+    wasd = {
+      w: game.input.keyboard.addKey(Phaser.Keyboard.W),
+      s: game.input.keyboard.addKey(Phaser.Keyboard.S),
+      a: game.input.keyboard.addKey(Phaser.Keyboard.A),
+      d: game.input.keyboard.addKey(Phaser.Keyboard.D),
+    };
 }
 
 function create() { 
@@ -102,11 +109,15 @@ function update() {
 //}
 
 function move() {
-    if (kbd.up.isDown)  // isDown means key was pressed
+    
+ 
+
+    
+    if (cursors.up.isDown)  // isDown means key was pressed
     {
         game.physics.arcade.accelerationFromRotation(car1.rotation, 80, car1.body.acceleration);
     }
-    else if (kbd.down.isDown)
+    else if (cursors.down.isDown)
     {   
         game.physics.arcade.accelerationFromRotation(car1.rotation, -80, car1.body.acceleration); 
     }
@@ -115,11 +126,11 @@ function move() {
         car1.body.acceleration.set(0);
     }
     
-    if (kbd.left.isDown)
+    if (cursors.left.isDown)
     {
         car1.body.angularVelocity = -300;
     }
-    else if (kbd.right.isDown)
+    else if (cursors.right.isDown)
     {
         car1.body.angularVelocity = 300;
     }
@@ -128,11 +139,11 @@ function move() {
         car1.body.angularVelocity = 0;
     }
     //----------------------------------------------------------------------------------------------------------------------------------------
-     if (kbd.W.isDown)  // isDown means key was pressed
+     if (wasd.w.isDown)  // isDown means key was pressed
     {
         game.physics.arcade.accelerationFromRotation(car2.rotation, 80, car2.body.acceleration);
     }
-    else if (kbd.s.isDown)
+    else if (wasd.s.isDown)
     {   
         game.physics.arcade.accelerationFromRotation(car2.rotation, -80, car2.body.acceleration); 
     }
@@ -141,11 +152,11 @@ function move() {
         car2.body.acceleration.set(0);
     }
     
-    if (kbd.left.isDown)
+    if (wasd.a.isDown)
     {
         car2.body.angularVelocity = -300;
     }
-    else if (kbd.right.isDown)
+    else if (wasd.d.isDown)
     {
         car2.body.angularVelocity = 300;
     }
@@ -155,87 +166,33 @@ function move() {
     }
 }
 
-//function checkAsteroidCollision() {
-//    asteroids.forEach(function(a){
-//        checkWorldPosition(a);
-//        var collided = game.physics.arcade.collide(spaceship, a);
-//        if (collided) {
-//            spaceship.kill();
-//            
-//            asteroids.forEach(function(a) { 
-//                a.kill();
-//                scoreText.text = '';
-//                highScoreText.text = '';
-//            });
-//            create();            
-//        }
-//    });
-//}
+//function to check barriers and cars
+function checkBarriersCollision() {
+    barriers.forEach(function(a){
+        //checkWorldPosition(a);
+        var collided = game.physics.arcade.collide(car, a);
+        if (collided) {
+       }
+    });
+}
 
-//function checkBulletCollision() {
-//    bullets.forEach(function(b){
-//        asteroids.forEach(function(a){
-//            checkWorldPosition(a);
-//            
-//            var collided = game.physics.arcade.collide(a, b);
-//            
-//            if (collided) {
-//                // play explosion at: a.position.x, a.position.y
-//                a.kill();
-//                b.kill();
-//                makeAsteroids(1);
-//                score++;
-//                scoreText.text = 'Score: ' + score;
-//                if (score > highScore){
-//                    highScore = score;
-//                    highScoreText.text  = 'High Score: ' + score;    
-//                }
-//            }
-//        });
-//    });
-//}
 
-//function makeAsteroids(numberOfAsteroids) {
-//    for (var i = 0; i < numberOfAsteroids; i++) {
-//        
-//        var asteroid = game.add.sprite(getRandomBetween(0, 200), getRandomBetween(0, 100), 'asteroid'); 
-//    
-//        //  and its physics settings
-//        game.physics.enable(asteroid, Phaser.Physics.ARCADE);
-//        
-//        asteroid.body.velocity.x = getRandomBetween(-90,90);
-//        asteroid.body.velocity.y = getRandomBetween(-90,90);
-//        asteroid.body.angularVelocity = 30;
-//        asteroid.anchor.set(0.5);
-//        asteroid.speed = 400;
-//        
-//        //  This is the collision rule
-//       asteroid.body.collideWorldBounds = false;
-//       asteroid.body.setCircle(10);
-//    
-//       
-//       asteroids.push(asteroid)
-//    }
-//}
+function makeBarriers(numberOfBarriers) {
+    for (var i = 0; i < numberOfBarriers; i++) {
+        
+        var barrier = game.add.sprite(randInt(0, 200), randInt(0, 100), 'barrier'); 
+    
+        //  and its physics settings
+        //game.physics.enable(asteroid, Phaser.Physics.ARCADE);
+        
+        //  This is the collision rule
+       barrier.body.setCircle(10);
+       
+       barriers.push(barrier);
+    }
+}
 
-//function fire() {
-//
-//    if (game.time.now > nextFire && bullets.countDead() > 0)
-//    {
-//        nextFire = game.time.now + fireRate;
-//
-//        var bullet = bullets.getFirstDead();
-//        
-//        bullet.reset(spaceship.x, spaceship.y);
-//
-//        //game.physics.arcade.moveToPointer(bullet, 300);
-//        bullet.rotation = spaceship.rotation;
-//        game.physics.arcade.velocityFromRotation(spaceship.rotation, 400, bullet.body.velocity);
-//    }
-//
-//}
-
-// From Mozilla
-function getRandomBetween(min, max) {
-  return Math.random() * (max - min) + min;
+// function that gives us random ...
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
 }
