@@ -35,6 +35,7 @@ function create() {
 
 
     //  Our player ship
+    map = game.add.spritw(40)
     car1 = game.add.sprite(400, 400, 'car1');
     car2 = game.add.sprite(400, 390, 'car2');
     car1.anchor.set(0.5);
