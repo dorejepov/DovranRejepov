@@ -16,7 +16,7 @@ function preload() {
     game.load.image('car1', '../assets/spaceship.gif');
     game.load.image('car2','../assets/spaceship.gif');
     game.load.image('barrier', '../assets/spaceship.gif');
-    
+    game.load.image('map','../assets/PIXILART-LOCAL1.png')
     cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKey(Phaser.Keyboard.A);
 
@@ -57,6 +57,9 @@ function create() {
     car1.scale.setTo(2, 2);
     car2.scale.setTo(2, 2);
     
+
+
+    makeBarriers(50);
     //makeAsteroids(25);
     
     // bullets
@@ -75,7 +78,11 @@ function create() {
 function update() {
     //checkWorldPosition(spaceship);
     move();
-    //checkAsteroidCollision();
+    checkBarriersCollision();
+    console.log ( "Y:" + game.input.mousePointer.y);
+
+console.log ( "X:" + game.input.mousePointer.x);
+
     //checkBulletCollision();
     
     //spaceship.rotation = game.physics.arcade.angleToPointer(spaceship);
@@ -170,20 +177,50 @@ function move() {
 function checkBarriersCollision() {
     barriers.forEach(function(a){
         //checkWorldPosition(a);
-        var collided = game.physics.arcade.collide(car, a);
+        var collided = game.physics.arcade.collide(car1, a);
         if (collided) {
-       }
+            console.log("collision!");
+        }
+        collided = game.physics.arcade.collide(car2, a);
+        if (collided) {
+            console.log("collision!");
+        }
     });
 }
 
 
 function makeBarriers(numberOfBarriers) {
-    for (var i = 0; i < numberOfBarriers; i++) {
+    
+    const BARRIER_LOCATIONS = [
+                                [90, 10],
+                                [70, 10],
+                                [50, 10],
+                                [30, 30],
+                                [10, 50],
+                                [10, 70],
+                                [10, 90],
+                                [10, 110],
+                                [10, 130],
+                                [10, 150],
+                                [10, 170],
+                                [10, 190],
+                                [10, 210],
+                                [10, 230],
+                                [10, 250],
+                                [10, 270],
+                                [10, 290],
+                                [10, 310],
+                                [560, 24]
+                              ];
+    
+    for (var i = 0; i < BARRIER_LOCATIONS.length; i++) {
         
-        var barrier = game.add.sprite(randInt(0, 200), randInt(0, 100), 'barrier'); 
+        var barrier = game.add.sprite(BARRIER_LOCATIONS[i][1], BARRIER_LOCATIONS[i][0], 'barrier'); 
     
         //  and its physics settings
-        //game.physics.enable(asteroid, Phaser.Physics.ARCADE);
+        game.physics.enable(barrier, Phaser.Physics.ARCADE);
+        
+        barrier.body.moves = false;
         
         //  This is the collision rule
        barrier.body.setCircle(10);
