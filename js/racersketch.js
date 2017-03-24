@@ -16,7 +16,7 @@ function preload() {
     game.load.image('car1', '../assets/spaceship.gif');
     game.load.image('car2','../assets/spaceship.gif');
     game.load.image('barrier', '../assets/spaceship.gif');
-    game.load.image('map','../assets/PIXILART-LOCAL1.png')
+    game.load.image('map','../assets/NewPiskel2.png');
     cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKey(Phaser.Keyboard.A);
 
@@ -35,7 +35,7 @@ function create() {
 
 
     //  Our player ship
-    map = game.add.spritw(40)
+    map = game.add.sprite(0,0, 'map');
     car1 = game.add.sprite(400, 400, 'car1');
     car2 = game.add.sprite(400, 390, 'car2');
     car1.anchor.set(0.5);
@@ -60,8 +60,7 @@ function create() {
     
 
 
-    makeBarriers(50);
-    //makeAsteroids(25);
+    makeBarriers();
     
     // bullets
     //bullets = game.add.group();
@@ -77,50 +76,15 @@ function create() {
 }
 
 function update() {
-    //checkWorldPosition(spaceship);
     move();
     checkBarriersCollision();
     console.log ( "Y:" + game.input.mousePointer.y);
 
 console.log ( "X:" + game.input.mousePointer.x);
 
-    //checkBulletCollision();
-    
-    //spaceship.rotation = game.physics.arcade.angleToPointer(spaceship);
-    
-    //this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
-    //if (this.spaceKey.isDown)
-    //{
-    //    fire();
-    //}
 } // end update()
 
-// This function makes the ship/asteroids teleport across the screen
-//function checkWorldPosition(object) {
-// check position
-//    if (object.position.x > game.world.bounds.width) {
-//        object.position.x = 0;
-//    }
-//    
-//    else if (object.position.x < 0) {
-//        object.position.x = game.world.bounds.width;
-//    }
-//    
-//    if (object.position.y > game.world.bounds.height) {
-//        object.position.y = 0;
-//    }
-//    
-//    else if (object.position.y < 0) {
-//        object.position.y = game.world.bounds.height;
-//    }   
-//}
-
 function move() {
-    
- 
-
-    
     if (cursors.up.isDown)  // isDown means key was pressed
     {
         game.physics.arcade.accelerationFromRotation(car1.rotation, 80, car1.body.acceleration);
@@ -190,13 +154,13 @@ function checkBarriersCollision() {
 }
 
 
-function makeBarriers(numberOfBarriers) {
+function makeBarriers() {
     
     const BARRIER_LOCATIONS = [
                                 [90, 10],
                                 [70, 10],
                                 [50, 10],
-                                [30, 30],
+                                [39, 29],
                                 [10, 50],
                                 [10, 70],
                                 [10, 90],
@@ -218,6 +182,8 @@ function makeBarriers(numberOfBarriers) {
         
         var barrier = game.add.sprite(BARRIER_LOCATIONS[i][1], BARRIER_LOCATIONS[i][0], 'barrier'); 
     
+        //barrier.width = ;
+        
         //  and its physics settings
         game.physics.enable(barrier, Phaser.Physics.ARCADE);
         
