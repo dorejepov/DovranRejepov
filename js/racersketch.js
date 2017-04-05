@@ -51,8 +51,8 @@ function create() {
     car2.body.maxVelocity.set(200);
     //  This is the collision rule
     game.world.setBounds(0, 0, 800, 600);
-    car1.body.collideWorldBounds = false;
-    car2.body.collideWorldBounds = false;
+    car1.body.collideWorldBounds = true;
+    car2.body.collideWorldBounds = true;
     car1.body.setCircle(15);
     car2.body.setCircle(15);
     car1.scale.setTo(2, 2);
@@ -62,14 +62,6 @@ function create() {
 
     makeBarriers();
     
-    // bullets
-    //bullets = game.add.group();
-    //bullets.enableBody = true;
-    //bullets.physicsBodyType = Phaser.Physics.ARCADE;
-    //
-    //bullets.createMultiple(50, 'bullet');
-    //bullets.setAll('checkWorldBounds', true);
-    //bullets.setAll('outOfBoundsKill', true);
     
     //reset score
     //score = 0;
@@ -78,6 +70,7 @@ function create() {
 function update() {
     move();
     checkBarriersCollision();
+    checkCarCollision();
    // console.log ( "Y:" + game.input.mousePointer.y);
 
 //console.log ( "X:" + game.input.mousePointer.x);
@@ -87,15 +80,16 @@ function update() {
 function move() {
     if (cursors.up.isDown)  // isDown means key was pressed
     {
-        game.physics.arcade.accelerationFromRotation(car1.rotation, 80, car1.body.acceleration);
+        game.physics.arcade.accelerationFromRotation(car1.rotation, 120, car1.body.acceleration);
     }
     else if (cursors.down.isDown)
     {   
-        game.physics.arcade.accelerationFromRotation(car1.rotation, -80, car1.body.acceleration); 
+        game.physics.arcade.accelerationFromRotation(car1.rotation, -30, car1.body.acceleration); 
     }
     else 
     {
         car1.body.acceleration.set(0);
+        car1.body.velocity;
     }
     
     if (cursors.left.isDown)
@@ -113,11 +107,11 @@ function move() {
     //----------------------------------------------------------------------------------------------------------------------------------------
      if (wasd.w.isDown)  // isDown means key was pressed
     {
-        game.physics.arcade.accelerationFromRotation(car2.rotation, 80, car2.body.acceleration);
+        game.physics.arcade.accelerationFromRotation(car2.rotation, 120, car2.body.acceleration);
     }
     else if (wasd.s.isDown)
     {   
-        game.physics.arcade.accelerationFromRotation(car2.rotation, -80, car2.body.acceleration); 
+        game.physics.arcade.accelerationFromRotation(car2.rotation, -30, car2.body.acceleration); 
     }
     else 
     {
@@ -151,6 +145,13 @@ function checkBarriersCollision() {
             console.log("collision!");
         }
     });
+}
+
+function checkCarCollision() {
+    var collided = game.physics.arcade.collide(car1, car2);
+    if (collided) {
+        console.log("collision between cars!");
+    }
 }
 
 
@@ -348,4 +349,3 @@ function makeBarriers() {
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
-
