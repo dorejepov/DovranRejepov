@@ -1,15 +1,20 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+//cursors will tell the controls of the cars or objects
 var cursors;
+
+// the objects contrloed by cursors
 var car1;
 var car2;
+
+// objects that block the way
 var barriers = [];
 
-//class to represent bariers
-var Barrier = function (x,y, size) {
-    this.x = x;
-    this.y = y;
-    this.size = size;
-};
+// object that changes the lap number
+var finishLine;
+
+// object thats part of the finishline
+var checkPoint;
 
 
 function preload() {
@@ -45,20 +50,19 @@ function create() {
     game.physics.enable(car1, Phaser.Physics.ARCADE);
     game.physics.enable(car2, Phaser.Physics.ARCADE);
  
-    car1.body.drag.set(100);
-    car2.body.drag.set(100);
+    car1.body.drag.set(150);
+    car2.body.drag.set(150);
     car1.body.maxVelocity.set(200);
     car2.body.maxVelocity.set(200);
+    
     //  This is the collision rule
     game.world.setBounds(0, 0, 800, 600);
     car1.body.collideWorldBounds = true;
     car2.body.collideWorldBounds = true;
-    car1.body.setCircle(15);
-    car2.body.setCircle(15);
     car1.scale.setTo(2, 2);
     car2.scale.setTo(2, 2);
-    
-
+    car1.body.setCircle(15);
+    car2.body.setCircle(15);
 
     makeBarriers();
     
@@ -94,11 +98,11 @@ function move() {
     
     if (cursors.left.isDown)
     {
-        car1.body.angularVelocity = -300;
+        car1.body.angularVelocity = -200;
     }
     else if (cursors.right.isDown)
     {
-        car1.body.angularVelocity = 300;
+        car1.body.angularVelocity = 200;
     }
     else
     {
@@ -152,6 +156,18 @@ function checkCarCollision() {
     if (collided) {
         console.log("collision between cars!");
     }
+}
+
+
+function createFinishLine() {
+    finishLine = game.add.sprite(40, 54, 'barrier'); 
+
+    finishLine.width = 15;
+    finishLine.height = 15;
+
+    //  and its physics settings
+    game.physics.enable(barrier, Phaser.Physics.ARCADE);        
+    barrier.body.moves = false;
 }
 
 
@@ -331,17 +347,16 @@ function makeBarriers() {
         
         var barrier = game.add.sprite(BARRIER_LOCATIONS[i][1], BARRIER_LOCATIONS[i][0], 'barrier'); 
     
-        //barrier.width = ;
+        barrier.width = 10;
+        barrier.height = 10;
         
         //  and its physics settings
-        game.physics.enable(barrier, Phaser.Physics.ARCADE);
-        
+        game.physics.enable(barrier, Phaser.Physics.ARCADE);        
         barrier.body.moves = false;
+        barrier.body.setCircle(10);
         
-        //  This is the collision rule
-       barrier.body.setCircle(10);
-       
-       barriers.push(barrier);
+        // add barriers array
+        barriers.push(barrier);
     }
 }
 
@@ -349,3 +364,4 @@ function makeBarriers() {
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
