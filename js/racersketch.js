@@ -1,4 +1,4 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+    var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 //cursors will tell the controls of the cars or objects
 var cursors;
@@ -15,6 +15,9 @@ var finishLine;
 
 // object thats part of the finishline
 var checkPoint;
+
+// number that represents the time
+var timer;
 
 
 function preload() {
@@ -34,13 +37,15 @@ function preload() {
 }
 
 function create() { 
+    
+    // 
+    map = game.add.sprite(0,0, 'map');
+    
     //  This creates the scoreboard
-    //scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });//
-    //highScoreText = game.add.text(200, 16, 'High Score: ' + highScore, { fontSize: '32px', //fill: '#fff' });
-
+    timerText = game.add.text(16, 16, 'Score: 0' + timer, { fontSize: '32px', fill: '#fff' });//
+    
 
     //  Our player ship
-    map = game.add.sprite(0,0, 'map');
     car1 = game.add.sprite(350, 75, 'car1');
     car2 = game.add.sprite(350, 125, 'car2');
     car1.anchor.set(0.5);
@@ -75,9 +80,10 @@ function update() {
     move();
     checkBarriersCollision();
     checkCarCollision();
-   // console.log ( "Y:" + game.input.mousePointer.y);
-
-//console.log ( "X:" + game.input.mousePointer.x);
+    
+    
+    // console.log ( "Y:" + game.input.mousePointer.y);
+    //console.log ( "X:" + game.input.mousePointer.x);
 
 } // end update()
 
@@ -341,7 +347,7 @@ function makeBarriers() {
         [570,770],
         [600,770]
         
-                              ];
+  ];
     
     for (var i = 0; i < BARRIER_LOCATIONS.length; i++) {
         
@@ -365,3 +371,10 @@ function randInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+function startTimer() { 
+timer = 0;
+    interval = setInterval(function() {
+        timer++;
+    },1000);
+};
+startTimer();
