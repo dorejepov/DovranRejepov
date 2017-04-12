@@ -1,4 +1,4 @@
-    var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 //cursors will tell the controls of the cars or objects
 var cursors;
@@ -57,6 +57,8 @@ function create() {
  
     car1.body.drag.set(150);
     car2.body.drag.set(150);
+    car1.body.bounce.set(0.8);
+    car2.body.bounce.set(0.8); 
     car1.body.maxVelocity.set(200);
     car2.body.maxVelocity.set(200);
     
@@ -347,7 +349,7 @@ function makeBarriers() {
         [570,770],
         [600,770]
         
-  ];
+                              ];
     
     for (var i = 0; i < BARRIER_LOCATIONS.length; i++) {
         
