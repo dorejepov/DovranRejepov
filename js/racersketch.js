@@ -57,8 +57,8 @@ function create() {
  
     car1.body.drag.set(150);
     car2.body.drag.set(150);
-    car1.body.bounce.set(0.8);
-    car2.body.bounce.set(0.8); 
+    car1.body.bounce.set(0.4);
+    car2.body.bounce.set(0.4); 
     car1.body.maxVelocity.set(200);
     car2.body.maxVelocity.set(200);
     
@@ -90,13 +90,14 @@ function update() {
 } // end update()
 
 function move() {
+    
     if (cursors.up.isDown)  // isDown means key was pressed
     {
-        game.physics.arcade.accelerationFromRotation(car1.rotation, 120, car1.body.acceleration);
+         car1.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(car1.angle, 200));
     }
     else if (cursors.down.isDown)
     {   
-        game.physics.arcade.accelerationFromRotation(car1.rotation, -30, car1.body.acceleration); 
+         car1.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(car1.angle, -30));
     }
     else 
     {
@@ -119,11 +120,11 @@ function move() {
     //----------------------------------------------------------------------------------------------------------------------------------------
      if (wasd.w.isDown)  // isDown means key was pressed
     {
-        game.physics.arcade.accelerationFromRotation(car2.rotation, 120, car2.body.acceleration);
+        car2.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(car2.angle, 200));
     }
     else if (wasd.s.isDown)
     {   
-        game.physics.arcade.accelerationFromRotation(car2.rotation, -30, car2.body.acceleration); 
+        car2.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(car2.angle, -30));
     }
     else 
     {
@@ -369,14 +370,12 @@ function makeBarriers() {
 }
 
 // function that gives us random ...
-function randInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
 function startTimer() { 
 timer = 0;
     interval = setInterval(function() {
         timer++;
+        
+        timerText.text = 'Timer: ' + timer;
     },1000);
 };
 startTimer();
