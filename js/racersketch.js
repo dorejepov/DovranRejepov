@@ -11,10 +11,10 @@ var car2;
 var barriers = [];
 
 // object that changes the lap number
-var finishLine;
+var finish;
 
 // object thats part of the finishline
-var checkPoint;
+var checkpoint;
 
 // number that represents the time
 var timer;
@@ -25,6 +25,8 @@ function preload() {
     game.load.image('car2','../assets/car2.png');
     game.load.image('barrier', '../assets/barrier.png');
     game.load.image('map','../assets/racermap.png');
+    game.load.image('finish','../assets/finish.png');
+    game.load.image('checkpoint','/assets/checkpoint');
     cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKey(Phaser.Keyboard.A);
 
@@ -42,7 +44,7 @@ function create() {
     map = game.add.sprite(0,0, 'map');
     
     //  This creates the scoreboard
-    timerText = game.add.text(16, 16, 'Score: 0' + timer, { fontSize: '32px', fill: '#fff' });//
+    timerText = game.add.text(86, 16, 'Timer:' + timer, { fontSize: '16px', fill: '#000' });//
     
 
     //  Our player ship
@@ -84,8 +86,8 @@ function update() {
     checkCarCollision();
     
     
-    // console.log ( "Y:" + game.input.mousePointer.y);
-    //console.log ( "X:" + game.input.mousePointer.x);
+     console.log ( "Y:" + game.input.mousePointer.y);
+    console.log ( "X:" + game.input.mousePointer.x);
 
 } // end update()
 
@@ -117,7 +119,7 @@ function move() {
     {
         car1.body.angularVelocity = 0;
     }
-    //----------------------------------------------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------------------------------------
      if (wasd.w.isDown)  // isDown means key was pressed
     {
         car2.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(car2.angle, 200));
@@ -363,6 +365,8 @@ function makeBarriers() {
         game.physics.enable(barrier, Phaser.Physics.ARCADE);        
         barrier.body.moves = false;
         barrier.body.setCircle(10);
+        
+        barrier.alpha = 0;
         
         // add barriers array
         barriers.push(barrier);
