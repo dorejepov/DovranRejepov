@@ -11,13 +11,13 @@ var car2;
 var barriers = [];
 
 // object that changes the lap number
-var finish;
+var finishLine;
 
 // object thats part of the finishline
-var checkpoint;
+var checkPoint;
 
 // number that represents the time
-var timer;
+var timer
 
 
 function preload() {
@@ -25,8 +25,6 @@ function preload() {
     game.load.image('car2','../assets/car2.png');
     game.load.image('barrier', '../assets/barrier.png');
     game.load.image('map','../assets/racermap.png');
-    game.load.image('finish','../assets/finish.png');
-    game.load.image('checkpoint','/assets/checkpoint');
     cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKey(Phaser.Keyboard.A);
 
@@ -44,7 +42,7 @@ function create() {
     map = game.add.sprite(0,0, 'map');
     
     //  This creates the scoreboard
-    timerText = game.add.text(86, 16, 'Timer:' + timer, { fontSize: '16px', fill: '#000' });//
+    timerText = game.add.text(700, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });//
     
 
     //  Our player ship
@@ -74,7 +72,7 @@ function create() {
     car2.body.setCircle(15);
 
     makeBarriers();
-    
+     createFinishLine();
     
     //reset score
     //score = 0;
@@ -84,10 +82,10 @@ function update() {
     move();
     checkBarriersCollision();
     checkCarCollision();
+   
     
-    
-     console.log ( "Y:" + game.input.mousePointer.y);
-    console.log ( "X:" + game.input.mousePointer.x);
+    // console.log ( "Y:" + game.input.mousePointer.y);
+    //console.log ( "X:" + game.input.mousePointer.x);
 
 } // end update()
 
@@ -119,7 +117,7 @@ function move() {
     {
         car1.body.angularVelocity = 0;
     }
-    //--------------------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------------------------
      if (wasd.w.isDown)  // isDown means key was pressed
     {
         car2.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(car2.angle, 200));
@@ -162,6 +160,16 @@ function checkBarriersCollision() {
     });
 }
 
+function checkOverlap(spriteA, spriteB) {
+
+    var boundsA = spriteA.getBounds();
+    var boundsB = spriteB.getBounds();
+
+    return Phaser.Rectangle.intersects(boundsA, boundsB);
+
+}
+
+
 function checkCarCollision() {
     var collided = game.physics.arcade.collide(car1, car2);
     if (collided) {
@@ -171,16 +179,23 @@ function checkCarCollision() {
 
 
 function createFinishLine() {
-    finishLine = game.add.sprite(40, 54, 'barrier'); 
+    finishLine = game.add.sprite(381, 25, 'barrier'); 
+    checkpoint = game.add.sprite(381, 217, 'barrier');
 
-    finishLine.width = 15;
-    finishLine.height = 15;
+    finishLine.width = 38;
+    finishLine.height = 157;
+    
+    checkpoint.width= 38;
+    checkpoint.height= 180;
 
     //  and its physics settings
     game.physics.enable(barrier, Phaser.Physics.ARCADE);        
     barrier.body.moves = false;
 }
 
+function makeCheckpoint() {
+    var checkPoint = game.add.sprite(398, 245, 'barrier');
+}
 
 function makeBarriers() {
     
@@ -365,7 +380,6 @@ function makeBarriers() {
         game.physics.enable(barrier, Phaser.Physics.ARCADE);        
         barrier.body.moves = false;
         barrier.body.setCircle(10);
-        
         barrier.alpha = 0;
         
         // add barriers array
