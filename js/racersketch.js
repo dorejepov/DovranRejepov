@@ -1,4 +1,4 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+vvar game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 //cursors will tell the controls of the cars or objects
 var cursors;
@@ -181,6 +181,7 @@ function checkFinishLine() {
             lap1 = lap1 + 1;
             car1.alreadyTouchedCheckPoint = false;
             console.log("number of car1 laps:", lap1);
+            flashCar1LapNotifier();
         }
     }
     if (checkOverlap(car2,finishLine)){
@@ -445,10 +446,9 @@ var car2Lap1Time = car2Lap1EndTime - car2StartTime
 }
 
 
-function FlashNumber(number) {
+function flashCar1LapNotifier(number) {
     // show this number on the screen
+
+    LapNotifier.text = "Lap1"
     
 }
-
-
-
