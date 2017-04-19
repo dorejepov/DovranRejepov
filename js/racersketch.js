@@ -18,6 +18,8 @@ var checkPoint;
 
 // number that represents the time
 var timer
+var lap1 = 0;
+var lap2 = 0;
 
 
 function preload() {
@@ -43,6 +45,7 @@ function create() {
     
     //  This creates the scoreboard
     timerText = game.add.text(700, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });//
+    lap1 = game.add.text(700, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });
     
 
     //  Our player ship
@@ -82,6 +85,9 @@ function update() {
     move();
     checkBarriersCollision();
     checkCarCollision();
+    checkFinishLine();
+
+    checkCheckpoint();
    
     
     // console.log ( "Y:" + game.input.mousePointer.y);
@@ -160,6 +166,16 @@ function checkBarriersCollision() {
     });
 }
 
+//function lap1() {
+  //  lap1 = 0;
+
+//};
+
+
+//function lap2() {
+    
+//}
+
 function checkOverlap(spriteA, spriteB) {
 
     var boundsA = spriteA.getBounds();
@@ -168,7 +184,35 @@ function checkOverlap(spriteA, spriteB) {
     return Phaser.Rectangle.intersects(boundsA, boundsB);
 
 }
+function checkFinishLine() {
+    if (checkOverlap(car1,finishLine)){
+        console.log("touched finishLine")
+        if (car1.alreadyTouchedCheckPoint) {
+            lap1 = lap1 + 1;
+            car1.alreadyTouchedCheckPoint = false;
+            console.log("number of car1 laps:", lap1);
+        }
+    }
+    if (checkOverlap(car2,finishLine)){
+        console.log("touched finishLine")
+        if (car2.alreadyTouchedCheckPoint) {
+            lap2 = lap2 + 1;
+            car2.alreadyTouchedCheckPoint = false;
+            console.log("number of car2 laps:", lap2);
+        }
+    }
+}
 
+function checkCheckpoint() {
+    if (checkOverlap(car1, checkpoint)) {
+        car1.alreadyTouchedCheckPoint = true;
+        console.log("touched checkPoint");
+    }
+    if (checkOverlap(car2, checkpoint)) {
+        car2.alreadyTouchedCheckPoint = true;
+        console.log("touched checkPoint");
+    }
+}
 
 function checkCarCollision() {
     var collided = game.physics.arcade.collide(car1, car2);
@@ -181,6 +225,8 @@ function checkCarCollision() {
 function createFinishLine() {
     finishLine = game.add.sprite(381, 25, 'barrier'); 
     checkpoint = game.add.sprite(381, 217, 'barrier');
+    
+    
 
     finishLine.width = 38;
     finishLine.height = 157;
@@ -189,8 +235,7 @@ function createFinishLine() {
     checkpoint.height= 180;
 
     //  and its physics settings
-    game.physics.enable(barrier, Phaser.Physics.ARCADE);        
-    barrier.body.moves = false;
+
 }
 
 function makeCheckpoint() {
