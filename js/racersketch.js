@@ -17,7 +17,7 @@ var finishLine;
 var checkPoint;
 
 // number that represents the time
-var timer
+var timer;
 var lap1 = 0;
 var lap2 = 0;
 
@@ -45,8 +45,8 @@ function create() {
     
     //  This creates the scoreboard
     timerText = game.add.text(700, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });//
-    lap1 = game.add.text(700, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });
-    
+     //this notifies player what lap they're on 
+    LapNotifier = game.add.text(30, 25,'hello world', { fontSize: '16px', fill: '#000'});
 
     //  Our player ship
     car1 = game.add.sprite(350, 75, 'car1');
@@ -75,7 +75,7 @@ function create() {
     car2.body.setCircle(15);
 
     makeBarriers();
-     createFinishLine();
+    createFinishLine();
     
     //reset score
     //score = 0;
@@ -86,9 +86,8 @@ function update() {
     checkBarriersCollision();
     checkCarCollision();
     checkFinishLine();
-
     checkCheckpoint();
-   
+
     
     // console.log ( "Y:" + game.input.mousePointer.y);
     //console.log ( "X:" + game.input.mousePointer.x);
@@ -166,16 +165,6 @@ function checkBarriersCollision() {
     });
 }
 
-//function lap1() {
-  //  lap1 = 0;
-
-//};
-
-
-//function lap2() {
-    
-//}
-
 function checkOverlap(spriteA, spriteB) {
 
     var boundsA = spriteA.getBounds();
@@ -184,6 +173,7 @@ function checkOverlap(spriteA, spriteB) {
     return Phaser.Rectangle.intersects(boundsA, boundsB);
 
 }
+
 function checkFinishLine() {
     if (checkOverlap(car1,finishLine)){
         console.log("touched finishLine")
@@ -214,6 +204,7 @@ function checkCheckpoint() {
     }
 }
 
+
 function checkCarCollision() {
     var collided = game.physics.arcade.collide(car1, car2);
     if (collided) {
@@ -225,17 +216,12 @@ function checkCarCollision() {
 function createFinishLine() {
     finishLine = game.add.sprite(381, 25, 'barrier'); 
     checkpoint = game.add.sprite(381, 217, 'barrier');
-    
-    
 
     finishLine.width = 38;
     finishLine.height = 157;
     
     checkpoint.width= 38;
     checkpoint.height= 180;
-
-    //  and its physics settings
-
 }
 
 function makeCheckpoint() {
@@ -442,3 +428,27 @@ timer = 0;
     },1000);
 };
 startTimer();
+
+function TrackLapTime() {
+var car1StartTime = Math.floor(Date.now() / 1000)    
+    // when lap is completed, get lap 1 end time 
+var car1Lap1EndTime = Math.floor(Date.now() / 1000)
+var car1Lap1Time = car1Lap1EndTime - car1StartTime
+    
+
+var car2StartTime = Math.floor(Date.now() / 1000)
+//when lap is completed, get lap 1 end time
+var car2EndTime = Math.floor(Date.now() / 1000)
+var car2Lap1Time = car2Lap1EndTime - car2StartTime
+
+
+}
+
+
+function FlashNumber(number) {
+    // show this number on the screen
+    
+}
+
+
+
