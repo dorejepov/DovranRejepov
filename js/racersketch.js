@@ -1,4 +1,4 @@
-vvar game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 //cursors will tell the controls of the cars or objects
 var cursors;
@@ -44,9 +44,11 @@ function create() {
     map = game.add.sprite(0,0, 'map');
     
     //  This creates the scoreboard
-    timerText = game.add.text(700, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });//
+    timerText1 = game.add.text(700, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });//
+    timerText2 = game.add.text(100, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });
      //this notifies player what lap they're on 
-    LapNotifier = game.add.text(30, 25,'hello world', { fontSize: '16px', fill: '#000'});
+    lapNotifier1 = game.add.text(30, 25,'Red Car Lap: 0' , { fontSize: '16px', fill: '#000'});
+    lapNotifier2 = game.add.text(640, 25,'Blue Car Lap: 0' , { fontSize: '16px', fill: '#000'});
 
     //  Our player ship
     car1 = game.add.sprite(350, 75, 'car1');
@@ -181,7 +183,8 @@ function checkFinishLine() {
             lap1 = lap1 + 1;
             car1.alreadyTouchedCheckPoint = false;
             console.log("number of car1 laps:", lap1);
-            flashCar1LapNotifier();
+            //flashCar1LapNotifier();
+            lapNotifier1.text = 'Red Car Lap: ' + lap1;
         }
     }
     if (checkOverlap(car2,finishLine)){
@@ -190,6 +193,7 @@ function checkFinishLine() {
             lap2 = lap2 + 1;
             car2.alreadyTouchedCheckPoint = false;
             console.log("number of car2 laps:", lap2);
+            lapNotifier2.text = 'blue Car Lap: ' + lap2;
         }
     }
 }
@@ -223,6 +227,9 @@ function createFinishLine() {
     
     checkpoint.width= 38;
     checkpoint.height= 180;
+    
+    finishLine.alpha = 0;
+    checkpoint.alpha = 0;
 }
 
 function makeCheckpoint() {
@@ -420,17 +427,27 @@ function makeBarriers() {
 }
 
 // function that gives us random ...
-function startTimer() { 
+function startTimer1() { 
 timer = 0;
     interval = setInterval(function() {
         timer++;
         
-        timerText.text = 'Timer: ' + timer;
+        timerText1.text = 'Timer1: ' + timer;
     },1000);
 };
-startTimer();
+startTimer1();
 
-function TrackLapTime() {
+function startTimer1() { 
+timer = 0;
+    interval = setInterval(function() {
+        timer++;
+        
+        timerText2.text = 'Timer2: ' + timer;
+    },1000);
+};
+startTimer2();
+
+function trackLapTime() {
 var car1StartTime = Math.floor(Date.now() / 1000)    
     // when lap is completed, get lap 1 end time 
 var car1Lap1EndTime = Math.floor(Date.now() / 1000)
@@ -449,6 +466,10 @@ var car2Lap1Time = car2Lap1EndTime - car2StartTime
 function flashCar1LapNotifier(number) {
     // show this number on the screen
 
-    LapNotifier.text = "Lap1"
-    
+    LapNotifier1.text = "Lap1"
+}
+function flashCar2LapNotifier(number) {
+    // show this number on the screen
+
+    LapNotifier2.text = "Lap2"
 }
