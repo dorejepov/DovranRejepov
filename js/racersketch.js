@@ -45,7 +45,7 @@ function create() {
     
     //  This creates the scoreboard
     timerText1 = game.add.text(700, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });//
-    timerText2 = game.add.text(100, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });
+    
      //this notifies player what lap they're on 
     lapNotifier1 = game.add.text(30, 25,'Red Car Lap: 0' , { fontSize: '16px', fill: '#000'});
     lapNotifier2 = game.add.text(640, 25,'Blue Car Lap: 0' , { fontSize: '16px', fill: '#000'});
@@ -181,6 +181,11 @@ function checkFinishLine() {
         console.log("touched finishLine")
         if (car1.alreadyTouchedCheckPoint) {
             lap1 = lap1 + 1;
+            if (lap1 === 2) {
+                alert(" Red Car Wins");
+                
+                // load next map
+            }
             car1.alreadyTouchedCheckPoint = false;
             console.log("number of car1 laps:", lap1);
             //flashCar1LapNotifier();
@@ -191,6 +196,11 @@ function checkFinishLine() {
         console.log("touched finishLine")
         if (car2.alreadyTouchedCheckPoint) {
             lap2 = lap2 + 1;
+            if (lap2 === 2) {
+                alert(" Blue Car Wins");
+                
+                // load next map
+            }
             car2.alreadyTouchedCheckPoint = false;
             console.log("number of car2 laps:", lap2);
             lapNotifier2.text = 'blue Car Lap: ' + lap2;
@@ -437,15 +447,6 @@ timer = 0;
 };
 startTimer1();
 
-function startTimer1() { 
-timer = 0;
-    interval = setInterval(function() {
-        timer++;
-        
-        timerText2.text = 'Timer2: ' + timer;
-    },1000);
-};
-startTimer2();
 
 function trackLapTime() {
 var car1StartTime = Math.floor(Date.now() / 1000)    
