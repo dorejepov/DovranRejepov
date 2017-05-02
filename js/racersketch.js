@@ -21,12 +21,17 @@ var timer;
 var lap1 = 0;
 var lap2 = 0;
 
+// for c
+var currLvl = 0;
+
 //gmae.load.image means to upload image
 function preload() {
     game.load.image('car1', '../assets/car1.png');
     game.load.image('car2','../assets/car2.png');
     game.load.image('barrier', '../assets/barrier.png');
-    game.load.image('map','../assets/racermap.png');
+    game.load.image('map', levels[currLvl].mapImage);
+    
+    game.load.audio('aud', ['../assets/audio/FlyHigh.mp3','../assets/audio/flyHigh.org']);
     
     //cursors are up, down, right, left keyboard
     cursors = game.input.keyboard.createCursorKeys();
@@ -42,21 +47,22 @@ function preload() {
 }
 
 function create() { 
+    
     map = game.add.sprite(0,0, 'map');
     
     //  This creates the scoreboard
-      timerText1 = game.add.text(640, 550, 'Score: 0' + timer, { fontSize: '24px', fill: '#' });
+    timerText1 = game.add.text(700, 550, 'Timer:0', { fontSize: '16px', fill: '#000' });
     
     // set timer to 0
 startTimer1();
     
      //this notifies player what lap they're on 
-    lapNotifier1 = game.add.text(30, 25,'Red Car Lap: 0' , { fontSize: '24px', fill: '#F00'});
-    lapNotifier2 = game.add.text(590, 25,'Blue Car Lap: 0' , { fontSize: '24px', fill: '#00F'});
+    lapNotifier1 = game.add.text(30, 25,'Red Car Lap: 0' , { fontSize: '16px', fill: '#f00'});
+    lapNotifier2 = game.add.text(640, 25,'Blue Car Lap: 0' , { fontSize: '16px', fill: '#00f'});
 
     //  Our player ship
-    car1 = game.add.sprite(350, 75, 'car1');
-    car2 = game.add.sprite(350, 125, 'car2');
+    car1 = game.add.sprite(levels[currLvl].car1Start.x, levels[currLvl].car1Start.y, 'car1');
+    car2 = game.add.sprite(levels[currLvl].car2Start.x, levels[currLvl].car2Start.y, 'car2');
     car1.anchor.set(0.5);
     car2.anchor.set(0.5);
 
@@ -84,6 +90,10 @@ startTimer1();
 
     makeBarriers();
     createFinishLine();
+    lap1 = 0;
+    lap2 = 0;
+    timer = 0;
+    
     
     //reset score
     //score = 0;
@@ -98,8 +108,8 @@ function update() {
     checkCheckpoint();
 
     
-    // console.log ( "Y:" + game.input.mousePointer.y);
-    //console.log ( "X:" + game.input.mousePointer.x);
+     console.log ( "Y:" + game.input.mousePointer.y);
+    console.log ( "X:" + game.input.mousePointer.x);
 
 } // end update()
 
@@ -188,8 +198,10 @@ function checkFinishLine() {
         //console.log("touched finishLine")
         if (car1.alreadyTouchedCheckPoint) {
             lap1 = lap1 + 1;
-            if (lap1 === 3) {
+            if (lap1 === 1) {
                 alert(" Red Car Wins");
+                currLvl = ++currLvl % levels.length;
+                game.state.restart();
                 
                 // load next map
             }
@@ -203,8 +215,9 @@ function checkFinishLine() {
        // console.log("touched finishLine")
         if (car2.alreadyTouchedCheckPoint) {
             lap2 = lap2 + 1;
-            if (lap2 === 3) {
+            if (lap2 === 1) {
                 alert(" Blue Car Wins");
+                currLvl = ++currLvl % levels.length
                 game.state.restart();
                 // load next map
             }
@@ -236,8 +249,8 @@ function checkCarCollision() {
 
 
 function createFinishLine() {
-    finishLine = game.add.sprite(381, 25, 'barrier'); 
-    checkpoint = game.add.sprite(381, 217, 'barrier');
+    finishLine = game.add.sprite(levels[currLvl].finishLine.x, levels[currLvl].finishLine.y, 'barrier'); 
+    checkpoint = game.add.sprite(levels[currLvl].checkPoint.x, levels[currLvl].checkPoint.y, 'barrier');
 
     finishLine.width = 38;
     finishLine.height = 157;
@@ -245,8 +258,8 @@ function createFinishLine() {
     checkpoint.width= 38;
     checkpoint.height= 180;
     
-    finishLine.alpha = 0;
-    checkpoint.alpha = 0;
+    finishLine.alpha = 0.4;
+    checkpoint.alpha = 0.4;
 }
 
 function makeCheckpoint() {
@@ -255,175 +268,7 @@ function makeCheckpoint() {
 
 function makeBarriers() {
     
-    const BARRIER_LOCATIONS = [
-        [22,0],
-        [22,30],
-        [22,60],
-        [22,90],
-        [22,120],
-        [22,150],
-        [22,180],
-        [22,210],
-        [22,240],
-        [22,270],
-        [22,300],
-        [22,330],
-        [22,360],
-        [22,390],
-        [22,420],
-        [22,450],
-        [22,480],
-        [22,510],
-        [22,540],
-        [22,570],
-        [22,600],
-        [22,630],
-        [22,660],
-        [22,690],
-        [22,720],
-        [22,750],
-        [22,780],
-        [30,6],
-        [60,6],
-        [90,6],
-        [120,6],
-        [150,6],
-        [180,6],
-        [210,6],
-        [240,6],
-        [270,6],
-        [300,6],
-        [330,6],
-        [360,6],
-        [390,6],
-        [420,6],
-        [450,6],
-        [480,6],
-        [510,6],
-        [540,6],
-        [570,6],
-        [600,6],
-        [590,6],
-        [590,30],
-        [590,60],
-        [590,90],
-        [590,120],
-        [590,150],
-        [590,180],
-        [590,210],
-        [590,240],
-        [590,270],
-        [590,300],
-        [590,330],
-        [590,360],
-        [590,390],
-        [590,420],
-        [590,450],
-        [590,480],
-        [590,510],
-        [590,540],
-        [590,570],
-        [590,600],
-        [590,630],
-        [590,660],
-        [590,690],
-        [590,720],
-        [590,750],
-        [590,780],
-        [590,370],
-        [560,370],
-        [530,370],
-        [500,370],
-        [470,370],
-        [440,370],
-        [410,370],
-        [405,370],
-        [405,404],
-        [409,404],
-        [440,404],
-        [470,404],
-        [500,404],
-        [530,404],
-        [560,404],
-        [590,404],
-        [194,190],
-        [194,217],
-        [194,247],
-        [194,277],
-        [194,307],
-        [194,337],
-        [194,367],
-        [194,397],
-        [194,427],
-        [194,457],
-        [194,487],
-        [194,517],
-        [194,547],
-        [194,577],
-        [194,587],
-        [224,190],
-        [254,190],
-        [284,190],
-        [314,190],
-        [344,190],
-        [374,190],
-        [404,190],
-        [224,587],
-        [254,587],
-        [284,587],
-        [314,587],
-        [344,587],
-        [374,587],
-        [404,587],
-        [214,217],
-        [214,247],
-        [214,277],
-        [214,307],
-        [214,337],
-        [214,367],
-        [214,397],
-        [214,427],
-        [214,457],
-        [214,487],
-        [214,517],
-        [214,547],
-        [224,213],
-        [254,213],
-        [284,213],
-        [314,213],
-        [344,213],
-        [374,213],
-        [404,213],
-        [224,566],
-        [254,566],
-        [284,566],
-        [314,566],
-        [344,566],
-        [374,566],
-        [404,566],
-        [600,600],
-        [30,770],
-        [60,770],
-        [90,770],
-        [120,770],
-        [150,770],
-        [180,770],
-        [210,770],
-        [240,770],
-        [270,770],
-        [300,770],
-        [330,770],
-        [360,770],
-        [390,770],
-        [420,770],
-        [450,770],
-        [480,770],
-        [510,770],
-        [540,770],
-        [570,770],
-        [600,770]
-        
-                              ];
+    const BARRIER_LOCATIONS = levels[currLvl].barriers;
     
     for (var i = 0; i < BARRIER_LOCATIONS.length; i++) {
         
@@ -436,7 +281,7 @@ function makeBarriers() {
         game.physics.enable(barrier, Phaser.Physics.ARCADE);        
         barrier.body.moves = false;
         barrier.body.setCircle(10);
-        barrier.alpha = 0;
+        barrier.alpha = 0.4;
         
         // add barriers array
         barriers.push(barrier);
@@ -449,7 +294,7 @@ timer = 0;
     interval = setInterval(function() {
         timer++;
         
-        timerText1.text = 'Timer1: ' + timer;
+        timerText1.text = 'Timer:' + timer;
     },1000);
 };
 
