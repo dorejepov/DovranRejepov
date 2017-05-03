@@ -12,7 +12,8 @@ var barriers = [];
 
 // object that changes the lap number
 var finishLine;
-
+var controlsLocked;
+var countDownCount;
 // object thats part of the finishline
 var checkPoint;
 var music;
@@ -97,7 +98,21 @@ function create() {
     lap1 = 0;
     lap2 = 0;
     timer = 0;
+    countDownText = game.add.text(300, 300,'' , { fontSize: '54px', fill: '#fff'});
+    controlsLocked = true;
+    countDownCount = 4;
     
+    var countDownLoop = setInterval(countDown, 1000);
+    
+    function countDown() {
+        countDownCount = countDownCount - 1;
+        countDownText.text = countDownCount;
+        if (countDownCount === 0) {
+            controlsLocked = false;
+            countDownText.text = '';
+            clearInterval(countDownLoop);
+        }
+    }
     
     //reset score
     //score = 0;
@@ -118,6 +133,8 @@ function update() {
 } // end update()
 
 function move() {
+    if (controlsLocked)
+        return;
     
     if (cursors.up.isDown)  // isDown means key was pressed
     {
@@ -201,7 +218,7 @@ function checkFinishLine() {
     if (checkOverlap(car1,finishLine)){
         //console.log("touched finishLine")
         if (car1.alreadyTouchedCheckPoint) {
-            lap1 = lap1 + 1;
+            lap1 = lap1 + 3;
             if (lap1 === 1) {
                 alert(" Red Car Wins");
                 currLvl = ++currLvl % levels.length;
@@ -218,7 +235,7 @@ function checkFinishLine() {
     if (checkOverlap(car2,finishLine)){
        // console.log("touched finishLine")
         if (car2.alreadyTouchedCheckPoint) {
-            lap2 = lap2 + 1;
+            lap2 = lap2 + 3;
             if (lap2 === 1) {
                 alert(" Blue Car Wins");
                 currLvl = ++currLvl % levels.length
