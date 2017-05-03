@@ -31,7 +31,7 @@ function preload() {
     game.load.image('barrier', '../assets/barrier.png');
     game.load.image('map', levels[currLvl].mapImage);
     
-    game.load.audio('aud', ['../assets/audio/FlyHigh.mp3','../assets/audio/flyHigh.org']);
+   game.load.audio('music', 'assets/audio/Pixel Car Racer - Theme Song 【Music】.mp3');
     
     //cursors are up, down, right, left keyboard
     cursors = game.input.keyboard.createCursorKeys();
