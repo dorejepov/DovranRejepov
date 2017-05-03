@@ -315,10 +315,10 @@ var levels = [
         [570,770],
         [600,770] ],
         car1Start : {x: 350, y: 75},
-        car2Start : {x: 350, y: 125},
+        car2Start : {x: 330, y: 150},
         finishLine : {
             x: 380,
-            y: 40,
+            y: 30,
             width: 150,
             length: 100
         },
