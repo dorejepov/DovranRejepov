@@ -15,7 +15,7 @@ var finishLine;
 
 // object thats part of the finishline
 var checkPoint;
-
+var music;
 // number that represents the time
 var timer;
 var lap1 = 0;
@@ -23,6 +23,8 @@ var lap2 = 0;
 
 // for c
 var currLvl = 0;
+
+
 
 //gmae.load.image means to upload image
 function preload() {
@@ -47,6 +49,8 @@ function preload() {
 }
 
 function create() { 
+        music = game.add.audio('music');
+    music.play();
     
     map = game.add.sprite(0,0, 'map');
     
@@ -108,8 +112,8 @@ function update() {
     checkCheckpoint();
 
     
-     console.log ( "Y:" + game.input.mousePointer.y);
-    console.log ( "X:" + game.input.mousePointer.x);
+    // console.log ( "Y:" + game.input.mousePointer.y);
+    //console.log ( "X:" + game.input.mousePointer.x);
 
 } // end update()
 
@@ -324,4 +328,8 @@ function flashCar2LapNotifier(number) {
     // show this number on the screen
 
     LapNotifier2.text = "Lap2"
+}
+
+function render() {
+    game.debug.soundInfo(music, 20, 32);
 }
