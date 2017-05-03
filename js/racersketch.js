@@ -34,7 +34,7 @@ function preload() {
     game.load.image('barrier', '../assets/barrier.png');
     game.load.image('map', levels[currLvl].mapImage);
     
-   game.load.audio('music', 'assets/audio/Pixel Car Racer - Theme Song 【Music】.mp3');
+   game.load.audio('music', 'assets/Pixel Car Racer - Theme Song 【Music】.mp3');
     
     //cursors are up, down, right, left keyboard
     cursors = game.input.keyboard.createCursorKeys();
@@ -62,8 +62,8 @@ function create() {
     game.time.events.loop(Phaser.Timer.SECOND, updateTimer, this);
     
      //this notifies player what lap they're on 
-    lapNotifier1 = game.add.text(30, 25,'Red Car Lap: 0' , { fontSize: '16px', fill: '#f00'});
-    lapNotifier2 = game.add.text(640, 25,'Blue Car Lap: 0' , { fontSize: '16px', fill: '#00f'});
+    lapNotifier1 = game.add.text(30, 50,'Red Car Lap: 0' , { fontSize: '16px', fill: '#f00'});
+    lapNotifier2 = game.add.text(640, 50,'Blue Car Lap: 0' , { fontSize: '16px', fill: '#00f'});
 
     //  Our player ship
     car1 = game.add.sprite(levels[currLvl].car1Start.x, levels[currLvl].car1Start.y, 'car1');
@@ -98,7 +98,7 @@ function create() {
     lap1 = 0;
     lap2 = 0;
     timer = 0;
-    countDownText = game.add.text(300, 300,'' , { fontSize: '54px', fill: '#fff'});
+    countDownText = game.add.text(400, 300,'' , { fontSize: '54px', fill: '#fff'});
     controlsLocked = true;
     countDownCount = 4;
     
@@ -218,8 +218,8 @@ function checkFinishLine() {
     if (checkOverlap(car1,finishLine)){
         //console.log("touched finishLine")
         if (car1.alreadyTouchedCheckPoint) {
-            lap1 = lap1 + 3;
-            if (lap1 === 1) {
+            lap1 = lap1 + 1;
+            if (lap1 === 3) {
                 alert(" Red Car Wins");
                 currLvl = ++currLvl % levels.length;
                 game.state.restart();
@@ -235,8 +235,8 @@ function checkFinishLine() {
     if (checkOverlap(car2,finishLine)){
        // console.log("touched finishLine")
         if (car2.alreadyTouchedCheckPoint) {
-            lap2 = lap2 + 3;
-            if (lap2 === 1) {
+            lap2 = lap2 + 1;
+            if (lap2 === 3) {
                 alert(" Blue Car Wins");
                 currLvl = ++currLvl % levels.length
                 game.state.restart();
@@ -279,8 +279,8 @@ function createFinishLine() {
     checkpoint.width= 38;
     checkpoint.height= 180;
     
-    finishLine.alpha = 0.4;
-    checkpoint.alpha = 0.4;
+    finishLine.alpha = 0;
+    checkpoint.alpha = 0;
 }
 
 function makeCheckpoint() {
@@ -302,7 +302,7 @@ function makeBarriers() {
         game.physics.enable(barrier, Phaser.Physics.ARCADE);        
         barrier.body.moves = false;
         barrier.body.setCircle(10);
-        barrier.alpha = 0.4;
+        barrier.alpha = 0;
         
         // add barriers array
         barriers.push(barrier);
