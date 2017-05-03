@@ -58,7 +58,7 @@ function create() {
     timerText1 = game.add.text(700, 550, 'Timer:0', { fontSize: '16px', fill: '#000' });
     
     // set timer to 0
-startTimer1();
+    game.time.events.loop(Phaser.Timer.SECOND, updateTimer, this);
     
      //this notifies player what lap they're on 
     lapNotifier1 = game.add.text(30, 25,'Red Car Lap: 0' , { fontSize: '16px', fill: '#f00'});
@@ -293,14 +293,10 @@ function makeBarriers() {
 }
 
 // function that gives us random ...
-function startTimer1() { 
-timer = 0;
-    interval = setInterval(function() {
-        timer++;
-        
-        timerText1.text = 'Timer:' + timer;
-    },1000);
-};
+function updateTimer() {
+    timer++;
+    timerText1.text = 'Timer:' + timer;
+}
 
 
 function trackLapTime() {
